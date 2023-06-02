@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE html>
 <html lang='ja'>
 
@@ -12,13 +9,12 @@
 
 <body>
 <div class="card">
-  <!-- 裏面のコンテンツ -->
   <div class="back">
-    <img src="path/sample.jpg" alt="" />
+    aaaa
   </div>
-  <!-- 表面のコンテンツ -->
+
   <div class="front">
-    <img src="path/sample.jpg" alt="" />
+    bbbb
   </div>
 </div>
 </body>
