@@ -8,8 +8,14 @@ function card(){
         $sel_page = $_POST["sel_page"];
     }
 
-    $colum_length = 1000;
-    $one_page = 20;
+    if(!isset($_POST["one_page"])){
+        $one_page = 10;
+    }else{
+        $one_page = $_POST["one_page"];
+    }
+
+    $colum_length = 100;
+    // $one_page = 10;
     $page = $colum_length / $one_page; # ページ数を取得
     $page = ceil($page); # 整数に直す。
 	$now_page = ($sel_page - 1) * $one_page; # OFFSET を取得 ページ数 -1 * 20
@@ -27,40 +33,89 @@ function card(){
     foreach($data['results'] as $key => $value){
         $response = file_get_contents($value["url"]);
         $datas = json_decode($response, true);
+        $type = "";
+        foreach($datas["types"] as $key2  => $value2){
+            $type .= $value2["type"]["name"];
+            if($key2 < count($datas["types"]) - 1 ){
+                $type .= ",";
+            }
+        }
         echo <<< _FORM_
-        <div class="l-wrapper_02 card-radius_02">
-            <article class="card_02">
-                <div class="card__header_02">
-                <p class="card__title_02">{$value["name"]}</p>
-                <figure class="card__thumbnail_02">
-                    <img src="{$datas['sprites']['front_default']}" class="image_size">
-                </figure>
-                </div>
-                <div class="card__body_02">
-                <p class="card__text2_02">
-                <p>重さ：{$datas["weight"]}</p>
-                <p>高さ：{$datas["height"]}</p>
-                </p>
-                </div>    
-            </article>
+        <div class="back">
+          aaa
+        </div>
+        <div class="front">
+            <div class="l-wrapper_02 card-radius_02">
+                <article class="card_02">
+                    <div class="card__header_02">
+                    <p class="card__title_02">{$value["name"]}</p>
+                    <figure class="card__thumbnail_02">
+                        <img src="{$datas['sprites']['front_default']}" class="image_size">
+                    </figure>
+                    </div>
+                    <div class="card__body_02">
+                    <p class="card__text2_02">
+                    <p>重さ：{$datas["weight"]}</p>
+                    <p>高さ：{$datas["height"]}</p>
+                    <p>タイプ：{$type}</p>
+                    </p>
+                    </div>    
+                </article>
+            </div>
         </div>
         _FORM_;
     }
     echo "</div>";
     # ページの数を取得し、表示
-    echo "<p class='paging'>";
+    echo "<div class='paging'>";
     for($i=1; $i<=$page; $i++){
         echo "
         <form action='pokemon.php' method='post'>
-        <input type='hidden' name='sel_page' value='{$i}'>
-        <input type='submit' class='page_btn' value='{$i}' class='paging'>
+            <input type='hidden' name='sel_page' value='{$i}'>
+            <input type='submit' class='page_btn' value='{$i}' class='paging'>
         </form>
         ";
     }
-    echo "</p>";
+    echo "</div>";
+
+    if($one_page == 10){
+    echo <<< _FORM_
+        <form action='pokemon.php' method='post'>
+            <select name="one_page" onchange="this.form.submit()">
+                <option value="10">10ページ</option>
+                <option value="20">20ページ</option>
+                <option value="50">50ページ</option>
+            </select>
+        </form>
+    _FORM_;
+    }
+    elseif($one_page == 20){
+    echo <<< _FORM_
+        <form action='pokemon.php' method='post'>
+            <select name="one_page" onchange="this.form.submit()">
+                <option value="20">20ページ</option>
+                <option value="10">10ページ</option>
+                <option value="50">50ページ</option>
+            </select>
+        </form>
+    _FORM_;
+    }else{
+    echo <<< _FORM_
+        <form action='pokemon.php' method='post'>
+            <select name="one_page" onchange="this.form.submit()">
+                <option value="50">50ページ</option>
+                <option value="10">10ページ</option>
+                <option value="20">20ページ</option>
+            </select>
+        </form>
+    _FORM_;
+    }
 }
 
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,6 +130,7 @@ function card(){
 
 <body>
         <?php card();?>
+
 </body>
 
 </html>

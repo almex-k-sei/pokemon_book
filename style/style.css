@@ -2,6 +2,11 @@
   display : flex;
   flex-wrap: wrap;
 }
+.paging{
+  display : flex;
+  flex-wrap: wrap;
+}
+
 
 .l-wrapper_02 {
   margin: 20px auto;
@@ -66,7 +71,4 @@
   margin-bottom: 1.5rem;
 }
 
-.paging{
-  display : flex;
-}
 
