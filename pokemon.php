@@ -41,27 +41,22 @@ function card(){
             }
         }
         echo <<< _FORM_
-        <div class="back">
-          aaa
-        </div>
-        <div class="front">
-            <div class="l-wrapper_02 card-radius_02">
-                <article class="card_02">
-                    <div class="card__header_02">
-                    <p class="card__title_02">{$value["name"]}</p>
-                    <figure class="card__thumbnail_02">
-                        <img src="{$datas['sprites']['front_default']}" class="image_size">
-                    </figure>
-                    </div>
-                    <div class="card__body_02">
-                    <p class="card__text2_02">
-                    <p>重さ：{$datas["weight"]}</p>
-                    <p>高さ：{$datas["height"]}</p>
-                    <p>タイプ：{$type}</p>
-                    </p>
-                    </div>    
-                </article>
-            </div>
+        <div class="l-wrapper_02 card-radius_02">
+            <article class="card_02">
+                <div class="card__header_02">
+                <p class="card__title_02">{$value["name"]}</p>
+                <figure class="card__thumbnail_02">
+                    <img src="{$datas['sprites']['front_default']}" class="image_size">
+                </figure>
+                </div>
+                <div class="card__body_02">
+                <p class="card__text2_02">
+                <p>重さ：{$datas["weight"]}</p>
+                <p>高さ：{$datas["height"]}</p>
+                <p>タイプ：{$type}</p>
+                </p>
+                </div>    
+            </article>
         </div>
         _FORM_;
     }
