@@ -58,9 +58,9 @@ function card(){
                     </div>
                     <div class="card__body_02">
                     <p class="card__text2_02">
-                    <p>重さ：{$datas["weight"]}</p>
-                    <p>高さ：{$datas["height"]}</p>
-                    <p>タイプ：{$type}</p>
+                    <p><b>weight：</b>{$datas["weight"]}</p>
+                    <p><b>height：</b>{$datas["height"]}</p>
+                    <p><b>type：</b>{$type}</p>
                     </p>
                     </div>    
                 </article>
@@ -78,7 +78,7 @@ function card(){
                         </div>
                         <div class="card__body_02">
                         <p class="card__text2_02">
-                        <p>説明:{$species["flavor_text_entries"][30]["flavor_text"]}</p>
+                        <p><b>description:</b>{$species["flavor_text_entries"][0]["flavor_text"]}</p>
                         </p>
                         </div>    
                     </article>

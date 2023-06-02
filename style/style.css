@@ -9,7 +9,7 @@
 
 
 .l-wrapper_02 {
-  margin: 20px auto;
+
   width: 380px;
 }
 .card-radius_02{
@@ -23,6 +23,8 @@
   box-shadow: 0 0 0px rgba(0, 0, 0, .16);
   color: #212121;
   text-decoration: none;
+  height: 460px;
+  padding: 0;
 }
 
 .card__header_02 {
@@ -76,7 +78,8 @@
 /* カード本体 */
 .card {
   width: 380px; /* 任意の横幅を指定 */
-  margin: 20px auto;
+  height: auto;
+  margin: 10px auto;
   position: relative;
   cursor: pointer;
 }
@@ -100,7 +103,8 @@
   height: 100%;
   width: 100%;
   backface-visibility: hidden;
-  margin: 20;
+  padding: 0;
+  margin: 0;
 }
 
 /* カード表面のスタイル */
