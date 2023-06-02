@@ -72,3 +72,48 @@
 }
 
 
+
+/* カード本体 */
+.card {
+  width: 380px; /* 任意の横幅を指定 */
+  margin: 20px auto;
+  position: relative;
+  cursor: pointer;
+}
+
+/* 擬似要素とpadding-topでカードの高さを指定 */
+.card::before {
+  content: "";
+  display: block;
+  padding-top: 142.5%;
+}
+
+/* カード内の画像 */
+
+/* カード裏面・表面の共通スタイル */
+.card .back,
+.card .front {
+  transition: all 0.6s;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  margin: 20;
+}
+
+/* カード表面のスタイル */
+.card .front {
+  transform: rotateY(-180deg);
+}
+
+/* ホバー時のカード裏面 */
+.card:hover .back {
+  transform: rotateY(180deg);
+}
+
+/* ホバー時のカード表面 */
+.card:hover .front {
+  transform: rotateY(0);
+}

@@ -33,6 +33,10 @@ function card(){
     foreach($data['results'] as $key => $value){
         $response = file_get_contents($value["url"]);
         $datas = json_decode($response, true);
+        $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
+        $response2 = file_get_contents($url2);
+        $species= json_decode($response2, true);
+
         $type = "";
         foreach($datas["types"] as $key2  => $value2){
             $type .= $value2["type"]["name"];
@@ -41,22 +45,45 @@ function card(){
             }
         }
         echo <<< _FORM_
-        <div class="l-wrapper_02 card-radius_02">
-            <article class="card_02">
-                <div class="card__header_02">
-                <p class="card__title_02">{$value["name"]}</p>
-                <figure class="card__thumbnail_02">
-                    <img src="{$datas['sprites']['front_default']}" class="image_size">
-                </figure>
+        <div class="card">
+
+            <div class="back">
+            <div class="l-wrapper_02 card-radius_02">
+                <article class="card_02">
+                    <div class="card__header_02">
+                    <p class="card__title_02">{$value["name"]}</p>
+                    <figure class="card__thumbnail_02">
+                        <img src="{$datas['sprites']['front_default']}" class="image_size">
+                    </figure>
+                    </div>
+                    <div class="card__body_02">
+                    <p class="card__text2_02">
+                    <p>重さ：{$datas["weight"]}</p>
+                    <p>高さ：{$datas["height"]}</p>
+                    <p>タイプ：{$type}</p>
+                    </p>
+                    </div>    
+                </article>
+        </div>
+            </div>
+
+            <div class="front">
+                <div class="l-wrapper_02 card-radius_02">
+                    <article class="card_02">
+                        <div class="card__header_02">
+                        <p class="card__title_02">{$value["name"]}</p>
+                        <figure class="card__thumbnail_02">
+                            <img src="{$datas['sprites']['back_default']}" class="image_size">
+                        </figure>
+                        </div>
+                        <div class="card__body_02">
+                        <p class="card__text2_02">
+                        <p>説明:{$species["flavor_text_entries"][30]["flavor_text"]}</p>
+                        </p>
+                        </div>    
+                    </article>
                 </div>
-                <div class="card__body_02">
-                <p class="card__text2_02">
-                <p>重さ：{$datas["weight"]}</p>
-                <p>高さ：{$datas["height"]}</p>
-                <p>タイプ：{$type}</p>
-                </p>
-                </div>    
-            </article>
+            </div>
         </div>
         _FORM_;
     }
