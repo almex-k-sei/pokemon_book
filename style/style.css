@@ -1,0 +1,72 @@
+.flex{
+  display : flex;
+  flex-wrap: wrap;
+}
+
+.l-wrapper_02 {
+  margin: 20px auto;
+  width: 380px;
+}
+.card-radius_02{
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.2);
+}
+
+.card_02 {
+  background-color: #fff;
+  box-shadow: 0 0 0px rgba(0, 0, 0, .16);
+  color: #212121;
+  text-decoration: none;
+}
+
+.card__header_02 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card__title_02 {
+  padding: 1rem 1.5rem 0;
+  font-size: 1.6rem;
+  order: 1;
+  font-weight: bold;
+  text-decoration: none;
+  /*線の種類（実線） 太さ 色*/
+  border-bottom: solid 3px black;
+
+}
+
+.card__thumbnail_02 {
+  margin: 0;
+  width: 380px;
+  text-align: center;
+}
+.image_size {
+  width: 200px;
+  height: 200px;
+}
+
+.card__image_02 {
+  width: 100%;
+}
+
+.card__body_02 {
+  padding: 0 1.5rem;
+}
+
+.card__text_02 {
+  font-size: .8rem;
+  text-align:center;
+  text-decoration: none;
+}
+
+.card__text2_02 {
+  font-size: .8rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.paging{
+  display : flex;
+}
+
