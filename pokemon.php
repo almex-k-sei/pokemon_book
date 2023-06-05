@@ -1,19 +1,20 @@
 <?php
-function card(){
+function card()
+{
     # $sel_pageの初期値は1とする。
-    if(!isset($_POST["sel_page"])){
+    if (!isset($_POST["sel_page"])) {
         $sel_page = 1;
-    }else{
+    } else {
         $sel_page = $_POST["sel_page"];
     }
 
-    if(!isset($_POST["one_page"])){
+    if (!isset($_POST["one_page"])) {
         $one_page = 10;
-    }else{
+    } else {
         $one_page = $_POST["one_page"];
     }
 
-    if(isset($_POST["select_page"])){
+    if (isset($_POST["select_page"])) {
         $one_page = $_POST["select_page"];
     }
 
@@ -21,7 +22,7 @@ function card(){
     // $one_page = 10;
     $page = $colum_length / $one_page; # ページ数を取得
     $page = ceil($page); # 整数に直す。
-	$now_page = ($sel_page - 1) * $one_page; # OFFSET を取得 ページ数 -1 * 20
+    $now_page = ($sel_page - 1) * $one_page; # OFFSET を取得 ページ数 -1 * 20
 
     /** PokeAPI のデータを取得する(id=11から20のポケモンのデータ) */
     $url = "https://pokeapi.co/api/v2/pokemon/?limit={$one_page}&offset={$now_page}";
@@ -33,34 +34,34 @@ function card(){
     $now_page = ($sel_page - 1) * $one_page; # OFFSET を取得 ページ数 -1 * 20
 
     echo "<div class='flex'>";
-    foreach($data['results'] as $key => $value){
+    foreach ($data['results'] as $key => $value) {
         $response = file_get_contents($value["url"]);
         $datas = json_decode($response, true);
 
-    
+
 
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
         $response2 = file_get_contents($url2);
-        $species= json_decode($response2, true);
+        $species = json_decode($response2, true);
         // echo "<pre>";
         // var_dump($species);
 
 
         $type = "";
         $type_japanese = "";
-        foreach($datas["types"] as $key2  => $value2){
+        foreach ($datas["types"] as $key2 => $value2) {
             $type .= $value2["type"]["name"];
 
             $type_url = $value2["type"]["url"];
             $type_response = file_get_contents($type_url);
-            $type_japanese_data= json_decode($type_response, true);
+            $type_japanese_data = json_decode($type_response, true);
             $type_japanese .= $type_japanese_data["names"][2]["name"];
-            if($key2 < count($datas["types"]) - 1 ){
+            if ($key2 < count($datas["types"]) - 1) {
                 $type .= ",";
-                $type_japanese.= "、";
+                $type_japanese .= "、";
             }
         }
-        echo <<< _FORM_
+        echo <<<_FORM_
         <div class="card">
 
             <div class="back">
@@ -110,11 +111,11 @@ function card(){
     echo "</div>";
     # ページの数を取得し、表示
     echo "<div class='paging'>";
-    for($i=1; $i<=$page; $i++){
-        if($i == $sel_page){
-            $button="now_btn";
-        }else{
-            $button="other_btn";
+    for ($i = 1; $i <= $page; $i++) {
+        if ($i == $sel_page) {
+            $button = "now_btn";
+        } else {
+            $button = "other_btn";
         }
         echo "
         <form action='pokemon.php' method='post'>
@@ -126,8 +127,8 @@ function card(){
     }
     echo "</div>";
 
-    if($one_page == 10){
-    echo <<< _FORM_
+    if ($one_page == 10) {
+        echo <<<_FORM_
         <form action='pokemon.php' method='post'>
             <select name="one_page" onchange="this.form.submit()">
                 <option value="10">10ページ</option>
@@ -136,9 +137,8 @@ function card(){
             </select>
         </form>
     _FORM_;
-    }
-    elseif($one_page == 20){
-    echo <<< _FORM_
+    } elseif ($one_page == 20) {
+        echo <<<_FORM_
         <form action='pokemon.php' method='post'>
             <select name="one_page" onchange="this.form.submit()">
                 <option value="20">20ページ</option>
@@ -147,8 +147,8 @@ function card(){
             </select>
         </form>
     _FORM_;
-    }else{
-    echo <<< _FORM_
+    } else {
+        echo <<<_FORM_
         <form action='pokemon.php' method='post'>
             <select name="one_page" onchange="this.form.submit()">
                 <option value="50">50ページ</option>
@@ -159,15 +159,12 @@ function card(){
     _FORM_;
     }
 }
-
-
 ?>
 
 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -175,11 +172,7 @@ function card(){
     <link href="style/style.css" rel="stylesheet">
     <title>ポケモン図鑑　勢井</title>
 </head>
-
 <body>
-<?php card();?>        
-
+    <?php card(); ?>
 </body>
-
 </html>
-
