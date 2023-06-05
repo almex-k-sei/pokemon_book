@@ -79,10 +79,10 @@ function card(){
                         </div>
                         <div class="card__body_02">
                         <p class="card__text2_02">
-                        <p><b>weight：</b>{$datas["weight"]}</p>
-                        <p><b>height：</b>{$datas["height"]}</p>
-                        <p><b>type：</b>{$type}</p>
-                        <p><b>description:</b>{$species["flavor_text_entries"][0]["flavor_text"]}</p>
+                        <p><b>重さ：</b>{$datas["weight"]}</p>
+                        <p><b>高さ：</b>{$datas["height"]}</p>
+                        <p><b>タイプ：</b>{$type}</p>
+                        <p><b>説明:</b>{$species["flavor_text_entries"][0]["flavor_text"]}</p>
                         </p>
                         </div>    
                     </article>
