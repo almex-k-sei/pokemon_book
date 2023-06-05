@@ -106,7 +106,6 @@ function card()
         _FORM_;
     }
     echo "</div>";
-
     // ページング機能の実装
     echo "<div class='paging'>";
     for ($i = 1; $i <= $page; $i++) {
@@ -125,7 +124,7 @@ function card()
         ";
     }
     echo "</div>";
-
+    echo "<div style='display: inline'>";
     //セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
     if ($one_page == 10) {
         echo <<<_FORM_
@@ -158,6 +157,7 @@ function card()
         </form>
     _FORM_;
     }
+    echo "</div>";
 }
 ?>
 
