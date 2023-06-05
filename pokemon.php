@@ -108,6 +108,21 @@ function card()
     echo "</div>";
     // ページング機能の実装
     echo "<div class='paging'>";
+    //前へボタンの実装
+    if($sel_page > 1){
+        $backpage = $sel_page -1;
+    }else{
+        $backpage = 1;
+    }
+    echo "
+    <form action='pokemon.php' method='post'>
+        <input type='hidden' name='sel_page' value='{$backpage}'>
+        <input type='hidden' name='select_page' value='{$one_page}'>
+        <input type='submit' class='other_btn' value='前へ' class='paging'>
+    </form>
+    ";
+    //数字ボタンの実装
+    $count = 0;
     for ($i = 1; $i <= $page; $i++) {
         //現在のページの時は黄色でそれ以外は水色で表示する
         if ($i == $sel_page) {
@@ -122,7 +137,21 @@ function card()
             <input type='submit' class='{$button}' value='{$i}' class='paging'>
         </form>
         ";
+        $count++;
     }
+    //次へボタンの実装
+    if($sel_page < $count){
+        $nextpage = $sel_page + 1;
+    }else{
+        $nextpage = $count;
+    }
+    echo "
+    <form action='pokemon.php' method='post'>
+        <input type='hidden' name='sel_page' value='{$nextpage}'>
+        <input type='hidden' name='select_page' value='{$one_page}'>
+        <input type='submit' class='other_btn' value='次へ' class='paging'>
+    </form>
+    ";
     echo "</div>";
     echo "<div style='display: inline'>";
     //セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
