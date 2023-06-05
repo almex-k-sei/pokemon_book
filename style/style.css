@@ -179,7 +179,9 @@ h1{
   cursor: pointer;
 }
 .other_btn:hover {
-  opacity: 0.5;
+  opacity: 0.8;
+  background-color: aqua;
+  color:red;
 }
 /* セレクトボックス */
 select,
