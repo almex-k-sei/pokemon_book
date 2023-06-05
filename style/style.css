@@ -190,6 +190,8 @@ h1{
 /* セレクトボックス */
 select,
 option {
+  position: absolute;
   border: black 2px inset;
   cursor: pointer;
+  right: 20px;
 }
