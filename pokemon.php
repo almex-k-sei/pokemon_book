@@ -1,4 +1,20 @@
 <?php
+function getCacheContents($url, $cachePath, $cacheLimit = 86400) {
+    if(file_exists($cachePath) && filemtime($cachePath) + $cacheLimit > time()) {
+      // キャッシュ有効期間内なのでキャッシュの内容を返す
+      return file_get_contents($cachePath);
+    } else {
+      // キャッシュがないか、期限切れなので取得しなおす
+      $data = file_get_contents($url);
+      file_put_contents($cachePath, $data, LOCK_EX); // キャッシュに保存
+      return $data;
+    }
+}
+function getItems($url,$name) {
+    $res = getCacheContents($url, "./cash/{$name}cache");
+    return json_decode($res,true);
+  }
+
 function card()
 {
     //$ページングした時のページを格納（初期値として１を代入）
@@ -28,22 +44,25 @@ function card()
     /** PokeAPI のデータを取得する(id=11から20のポケモンのデータ) */
     $url = "https://pokeapi.co/api/v2/pokemon/?limit={$one_page}&offset={$now_page}";
     // レスポンスデータは JSON 形式なので、デコードして連想配列にする
-    $response = file_get_contents($url);
+    // $response = file_get_contents($url);
     // 取得結果をループさせてポケモンの名前を表示する
-    $data = json_decode($response, true);
+    // $data = json_decode($response, true);
     //OFFSET を取得 ページ数 -1 * 20
     $now_page = ($sel_page - 1) * $one_page; 
-    
+    $data = getItems($url,"data".$one_page.",".$now_page);
     //フレキシブルボックスで表示
     echo "<div class='flex'>";
-    foreach ($data['results'] as $key => $value) {
+    foreach ($data['results'] as $value) {
         //オフセットの範囲のポケモンデータを取得
-        $response = file_get_contents($value["url"]);
-        $datas = json_decode($response, true);
+        // $response = file_get_contents($value["url"]);
+        // $datas = json_decode($response, true);
+        // var_dump($value["name"]);
+        $datas = getItems($value["url"],"pokemon".$value["name"]);
         //idからspeciesのデータを取得
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
-        $response2 = file_get_contents($url2);
-        $species = json_decode($response2, true);
+        // $response2 = file_get_contents($url2);
+        // $species = json_decode($response2, true);
+        $species = getItems($url2,"species".$datas["id"]);
 
         //タイプのデータを取得(コンマ区切りで取得する)
         $type = "";
@@ -51,8 +70,9 @@ function card()
         foreach ($datas["types"] as $key2 => $value2) {
             $type .= $value2["type"]["name"];
             $type_url = $value2["type"]["url"];
-            $type_response = file_get_contents($type_url);
-            $type_japanese_data = json_decode($type_response, true);
+            // $type_response = file_get_contents($type_url);
+            // $type_japanese_data = json_decode($type_response, true);
+            $type_japanese_data = getItems($type_url,"types".$value2["type"]["name"]);
             $type_japanese .= $type_japanese_data["names"][2]["name"];
             if ($key2 < count($datas["types"]) - 1) {
                 $type .= ",";
