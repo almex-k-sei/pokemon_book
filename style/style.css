@@ -25,6 +25,7 @@ h1{
 .paging {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .l-wrapper_02 {
