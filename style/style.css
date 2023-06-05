@@ -1,3 +1,6 @@
+body {
+  background: rgb(254, 246, 247);
+}
 .flex{
   display : flex;
   flex-wrap: wrap;
@@ -19,12 +22,20 @@
 }
 
 .card_02 {
-  background-color: #fff;
   box-shadow: 0 0 0px rgba(0, 0, 0, .16);
   color: #212121;
   text-decoration: none;
-  height: 460px;
+  height: 540px;
   padding: 0;
+}
+.card_02_front{
+  background-color:  silver;
+  color: rgb(84, 75, 23);
+}
+.card_02_back{
+  background-color:  rgb(147, 130, 32);
+  color: rgb(231, 230, 230);
+  
 }
 
 .card__header_02 {
@@ -33,13 +44,20 @@
 }
 
 .card__title_02 {
-  padding: 1rem 1.5rem 0;
+  padding: 0rem 1.5rem 0;
   font-size: 1.6rem;
   order: 1;
   font-weight: bold;
   text-decoration: none;
-  /*線の種類（実線） 太さ 色*/
-  border-bottom: solid 3px black;
+
+
+}
+.card__title_02_front {
+  border-bottom: solid 4px  rgb(84, 75, 23);
+
+}
+.card__title_02_back {
+  border-bottom: solid 4px rgb(231, 230, 230);
 
 }
 
@@ -47,6 +65,12 @@
   margin: 0;
   width: 380px;
   text-align: center;
+}
+.card__thumbnail_02_front {
+  background-color: azure;
+}
+.card__thumbnail_02_back {
+  background-color: beige;
 }
 .image_size {
   width: 200px;
@@ -79,7 +103,7 @@
 .card {
   width: 380px; /* 任意の横幅を指定 */
   height: auto;
-  margin: 10px auto;
+  margin: 20px auto;
   position: relative;
   cursor: pointer;
 }
@@ -121,3 +145,21 @@
 .card:hover .front {
   transform: rotateY(0);
 }
+
+.now_btn{
+  background: yellow;
+  cursor: pointer;
+}
+.other_btn{
+  background: lightblue;
+  cursor: pointer;
+}
+
+.other_btn:hover {
+	opacity: 0.5 ;
+}
+select, option{
+  border:orange 2px inset;
+  cursor: pointer;
+}
+
