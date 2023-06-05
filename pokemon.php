@@ -65,10 +65,10 @@ function card(){
 
             <div class="back">
             <div class="l-wrapper_02 card-radius_02">
-                <article class="card_02">
+                <article class="card_02 card_02_front">
                     <div class="card__header_02">
-                    <p class="card__title_02">{$value["name"]}</p>
-                    <figure class="card__thumbnail_02">
+                    <p class="card__title_02 card__title_02_front">{$value["name"]}</p>
+                    <figure class="card__thumbnail_02 card__thumbnail_02_front">
                         <img src="{$datas['sprites']['front_default']}" class="image_size">
                     </figure>
                     </div>
@@ -86,10 +86,10 @@ function card(){
 
             <div class="front">
                 <div class="l-wrapper_02 card-radius_02">
-                    <article class="card_02">
+                    <article class="card_02 card_02_back">
                         <div class="card__header_02">
-                        <p class="card__title_02">{$species["names"][0]["name"]}</p>
-                        <figure class="card__thumbnail_02">
+                        <p class="card__title_02 card__title_02_back">{$species["names"][0]["name"]}</p>
+                        <figure class="card__thumbnail_02 card__thumbnail_02_back">
                             <img src="{$datas['sprites']['back_default']}" class="image_size">
                         </figure>
                         </div>
@@ -177,7 +177,7 @@ function card(){
 </head>
 
 <body>
-        <?php card();?>
+<?php card();?>        
 
 </body>
 
