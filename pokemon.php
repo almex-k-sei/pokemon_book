@@ -173,6 +173,7 @@ function card()
     <title>ポケモン図鑑　勢井</title>
 </head>
 <body>
+    <h1>ポケモン図鑑</h1>
     <?php card(); ?>
 </body>
 </html>

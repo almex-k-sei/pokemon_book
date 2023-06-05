@@ -1,6 +1,17 @@
+/* Googleフォント */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;700;900&family=Noto+Sans+JP:wght@800&family=Noto+Serif+JP:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;700;900&family=Noto+Sans+JP:wght@800&family=Noto+Serif+JP:wght@700&display=swap');
+
+
 /* 背景色 */
 body {
   background: rgb(254, 246, 247);
+}
+h1{
+  text-align: center;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Noto Serif JP', serif;
 }
 /* フレックスボックス */
 .flex {
@@ -35,12 +46,17 @@ body {
 .card_02_front {
   background-color: silver;
   color: rgb(84, 75, 23);
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Noto Serif JP', serif;
 }
 
 .card_02_back {
   background-color: rgb(147, 130, 32);
   color: rgb(231, 230, 230);
-
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Noto Serif JP', serif;
 }
 
 .card__header_02 {
@@ -168,6 +184,6 @@ body {
 /* セレクトボックス */
 select,
 option {
-  border: orange 2px inset;
+  border: black 2px inset;
   cursor: pointer;
 }
