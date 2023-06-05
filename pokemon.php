@@ -1,6 +1,5 @@
 <?php
 function card(){
-    
     # $sel_pageの初期値は1とする。
     if(!isset($_POST["sel_page"])){
         $sel_page = 1;
@@ -12,6 +11,10 @@ function card(){
         $one_page = 10;
     }else{
         $one_page = $_POST["one_page"];
+    }
+
+    if(isset($_POST["select_page"])){
+        $one_page = $_POST["select_page"];
     }
 
     $colum_length = 100;
@@ -33,15 +36,28 @@ function card(){
     foreach($data['results'] as $key => $value){
         $response = file_get_contents($value["url"]);
         $datas = json_decode($response, true);
+
+    
+
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
         $response2 = file_get_contents($url2);
         $species= json_decode($response2, true);
+        // echo "<pre>";
+        // var_dump($species);
+
 
         $type = "";
+        $type_japanese = "";
         foreach($datas["types"] as $key2  => $value2){
             $type .= $value2["type"]["name"];
+
+            $type_url = $value2["type"]["url"];
+            $type_response = file_get_contents($type_url);
+            $type_japanese_data= json_decode($type_response, true);
+            $type_japanese .= $type_japanese_data["names"][2]["name"];
             if($key2 < count($datas["types"]) - 1 ){
                 $type .= ",";
+                $type_japanese.= "、";
             }
         }
         echo <<< _FORM_
@@ -61,7 +77,7 @@ function card(){
                     <p><b>weight：</b>{$datas["weight"]}</p>
                     <p><b>height：</b>{$datas["height"]}</p>
                     <p><b>type：</b>{$type}</p>
-                    <p><b>description:</b>{$species["flavor_text_entries"][0]["flavor_text"]}</p>
+                    <p><b>description:</b>{$species["flavor_text_entries"][11]["flavor_text"]}</p>
                     </p>
                     </div>    
                 </article>
@@ -72,7 +88,7 @@ function card(){
                 <div class="l-wrapper_02 card-radius_02">
                     <article class="card_02">
                         <div class="card__header_02">
-                        <p class="card__title_02">{$value["name"]}</p>
+                        <p class="card__title_02">{$species["names"][0]["name"]}</p>
                         <figure class="card__thumbnail_02">
                             <img src="{$datas['sprites']['back_default']}" class="image_size">
                         </figure>
@@ -81,8 +97,8 @@ function card(){
                         <p class="card__text2_02">
                         <p><b>重さ：</b>{$datas["weight"]}</p>
                         <p><b>高さ：</b>{$datas["height"]}</p>
-                        <p><b>タイプ：</b>{$type}</p>
-                        <p><b>説明:</b>{$species["flavor_text_entries"][0]["flavor_text"]}</p>
+                        <p><b>タイプ：</b>{$type_japanese}</p>
+                        <p><b>説明:</b>{$species["flavor_text_entries"][29]["flavor_text"]}</p>
                         </p>
                         </div>    
                     </article>
@@ -95,12 +111,23 @@ function card(){
     # ページの数を取得し、表示
     echo "<div class='paging'>";
     for($i=1; $i<=$page; $i++){
-        echo "
-        <form action='pokemon.php' method='post'>
-            <input type='hidden' name='sel_page' value='{$i}'>
-            <input type='submit' class='page_btn' value='{$i}' class='paging'>
-        </form>
-        ";
+        if($i == $sel_page){
+            echo "
+            <form action='pokemon.php' method='post'>
+                <input type='hidden' name='sel_page' value='{$i}'>
+                <input type='hidden' name='select_page' value='{$one_page}'>
+                <input type='submit' class='page_btn' value='{$i}' class='paging'>
+            </form>
+            ";
+        }else{
+            echo "
+            <form action='pokemon.php' method='post'>
+                <input type='hidden' name='sel_page' value='{$i}'>
+                <input type='hidden' name='select_page' value='{$one_page}'>
+                <input type='submit' class='page_btn' value='{$i}' class='paging'>
+            </form>
+            ";
+        }
     }
     echo "</div>";
 
