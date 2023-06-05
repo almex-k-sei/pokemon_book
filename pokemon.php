@@ -106,7 +106,6 @@ function card()
         _FORM_;
     }
     echo "</div>";
-
     // ページング機能の実装
     echo "<div class='paging'>";
     for ($i = 1; $i <= $page; $i++) {
@@ -125,7 +124,7 @@ function card()
         ";
     }
     echo "</div>";
-
+    echo "<div style='display: inline'>";
     //セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
     if ($one_page == 10) {
         echo <<<_FORM_
@@ -158,6 +157,7 @@ function card()
         </form>
     _FORM_;
     }
+    echo "</div>";
 }
 ?>
 
@@ -170,9 +170,10 @@ function card()
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style/style.css" rel="stylesheet">
-    <title>ポケモン図鑑　勢井</title>
+    <title>ポケモンずかん　勢井</title>
 </head>
 <body>
+    <h1>ポケモンずかん</h1>
     <?php card(); ?>
 </body>
 </html>
