@@ -121,3 +121,10 @@
 .card:hover .front {
   transform: rotateY(0);
 }
+
+.now_btn{
+  background: yellow;
+}
+.other_btn{
+  background: lightblue;
+}

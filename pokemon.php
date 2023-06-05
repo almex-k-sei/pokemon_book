@@ -116,7 +116,7 @@ function card(){
             <form action='pokemon.php' method='post'>
                 <input type='hidden' name='sel_page' value='{$i}'>
                 <input type='hidden' name='select_page' value='{$one_page}'>
-                <input type='submit' class='page_btn' value='{$i}' class='paging'>
+                <input type='submit' class='now_btn' value='{$i}' class='paging'>
             </form>
             ";
         }else{
@@ -124,7 +124,7 @@ function card(){
             <form action='pokemon.php' method='post'>
                 <input type='hidden' name='sel_page' value='{$i}'>
                 <input type='hidden' name='select_page' value='{$one_page}'>
-                <input type='submit' class='page_btn' value='{$i}' class='paging'>
+                <input type='submit' class='other_btn' value='{$i}' class='paging'>
             </form>
             ";
         }
