@@ -2,9 +2,14 @@
   display : flex;
   flex-wrap: wrap;
 }
+.paging{
+  display : flex;
+  flex-wrap: wrap;
+}
+
 
 .l-wrapper_02 {
-  margin: 20px auto;
+
   width: 380px;
 }
 .card-radius_02{
@@ -18,6 +23,8 @@
   box-shadow: 0 0 0px rgba(0, 0, 0, .16);
   color: #212121;
   text-decoration: none;
+  height: 460px;
+  padding: 0;
 }
 
 .card__header_02 {
@@ -66,7 +73,51 @@
   margin-bottom: 1.5rem;
 }
 
-.paging{
-  display : flex;
+
+
+/* カード本体 */
+.card {
+  width: 380px; /* 任意の横幅を指定 */
+  height: auto;
+  margin: 10px auto;
+  position: relative;
+  cursor: pointer;
 }
 
+/* 擬似要素とpadding-topでカードの高さを指定 */
+.card::before {
+  content: "";
+  display: block;
+  padding-top: 142.5%;
+}
+
+/* カード内の画像 */
+
+/* カード裏面・表面の共通スタイル */
+.card .back,
+.card .front {
+  transition: all 0.6s;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+/* カード表面のスタイル */
+.card .front {
+  transform: rotateY(-180deg);
+}
+
+/* ホバー時のカード裏面 */
+.card:hover .back {
+  transform: rotateY(180deg);
+}
+
+/* ホバー時のカード表面 */
+.card:hover .front {
+  transform: rotateY(0);
+}
