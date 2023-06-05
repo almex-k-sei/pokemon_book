@@ -175,7 +175,7 @@ h1{
 }
 /* それ以外のボタン */
 .other_btn {
-  background: lightblue;
+  background: rgb(231, 248, 253);
   cursor: pointer;
 }
 .other_btn:hover {
