@@ -1,24 +1,26 @@
+/* 背景色 */
 body {
   background: rgb(254, 246, 247);
 }
-.flex{
-  display : flex;
-  flex-wrap: wrap;
-}
-.paging{
-  display : flex;
+/* フレックスボックス */
+.flex {
+  display: flex;
   flex-wrap: wrap;
 }
 
+.paging {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .l-wrapper_02 {
-
   width: 380px;
 }
-.card-radius_02{
+
+.card-radius_02 {
   overflow: hidden;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
 }
 
 .card_02 {
@@ -28,14 +30,16 @@ body {
   height: 540px;
   padding: 0;
 }
-.card_02_front{
-  background-color:  silver;
+
+.card_02_front {
+  background-color: silver;
   color: rgb(84, 75, 23);
 }
-.card_02_back{
-  background-color:  rgb(147, 130, 32);
+
+.card_02_back {
+  background-color: rgb(147, 130, 32);
   color: rgb(231, 230, 230);
-  
+
 }
 
 .card__header_02 {
@@ -49,16 +53,14 @@ body {
   order: 1;
   font-weight: bold;
   text-decoration: none;
-
-
 }
+
 .card__title_02_front {
-  border-bottom: solid 4px  rgb(84, 75, 23);
-
+  border-bottom: solid 4px rgb(84, 75, 23);
 }
+
 .card__title_02_back {
   border-bottom: solid 4px rgb(231, 230, 230);
-
 }
 
 .card__thumbnail_02 {
@@ -66,12 +68,15 @@ body {
   width: 380px;
   text-align: center;
 }
+
 .card__thumbnail_02_front {
   background-color: azure;
 }
+
 .card__thumbnail_02_back {
   background-color: beige;
 }
+
 .image_size {
   width: 200px;
   height: 200px;
@@ -87,7 +92,7 @@ body {
 
 .card__text_02 {
   font-size: .8rem;
-  text-align:center;
+  text-align: center;
   text-decoration: none;
 }
 
@@ -101,7 +106,8 @@ body {
 
 /* カード本体 */
 .card {
-  width: 380px; /* 任意の横幅を指定 */
+  width: 380px;
+  /* 任意の横幅を指定 */
   height: auto;
   margin: 20px auto;
   position: relative;
@@ -145,21 +151,22 @@ body {
 .card:hover .front {
   transform: rotateY(0);
 }
-
-.now_btn{
+/* 現在のボタン */
+.now_btn {
   background: yellow;
   cursor: pointer;
 }
-.other_btn{
+/* それ以外のボタン */
+.other_btn {
   background: lightblue;
   cursor: pointer;
 }
-
 .other_btn:hover {
-	opacity: 0.5 ;
+  opacity: 0.5;
 }
-select, option{
-  border:orange 2px inset;
+/* セレクトボックス */
+select,
+option {
+  border: orange 2px inset;
   cursor: pointer;
 }
-

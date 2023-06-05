@@ -1,57 +1,55 @@
 <?php
 function card()
 {
-    # $sel_pageの初期値は1とする。
+    //$ページングした時のページを格納（初期値として１を代入）
     if (!isset($_POST["sel_page"])) {
         $sel_page = 1;
     } else {
         $sel_page = $_POST["sel_page"];
     }
 
+    //$表示する件数の値を格納（初期値として10を代入）
     if (!isset($_POST["one_page"])) {
         $one_page = 10;
     } else {
         $one_page = $_POST["one_page"];
     }
 
+    //ページングした時の表示する件数の値を格納
     if (isset($_POST["select_page"])) {
         $one_page = $_POST["select_page"];
     }
 
-    $colum_length = 100;
-    // $one_page = 10;
-    $page = $colum_length / $one_page; # ページ数を取得
-    $page = ceil($page); # 整数に直す。
-    $now_page = ($sel_page - 1) * $one_page; # OFFSET を取得 ページ数 -1 * 20
+    $colum_length = 100; //表示するデータの件数
+    $page = $colum_length / $one_page; //ページ数を取得
+    $page = ceil($page); // 整数に直す。
+    $now_page = ($sel_page - 1) * $one_page; // OFFSET を取得 ページ数 -1 * 20
 
     /** PokeAPI のデータを取得する(id=11から20のポケモンのデータ) */
     $url = "https://pokeapi.co/api/v2/pokemon/?limit={$one_page}&offset={$now_page}";
-    $response = file_get_contents($url);
     // レスポンスデータは JSON 形式なので、デコードして連想配列にする
-    $data = json_decode($response, true);
+    $response = file_get_contents($url);
     // 取得結果をループさせてポケモンの名前を表示する
-
-    $now_page = ($sel_page - 1) * $one_page; # OFFSET を取得 ページ数 -1 * 20
-
+    $data = json_decode($response, true);
+    //OFFSET を取得 ページ数 -1 * 20
+    $now_page = ($sel_page - 1) * $one_page; 
+    
+    //フレキシブルボックスで表示
     echo "<div class='flex'>";
     foreach ($data['results'] as $key => $value) {
+        //オフセットの範囲のポケモンデータを取得
         $response = file_get_contents($value["url"]);
         $datas = json_decode($response, true);
-
-
-
+        //idからspeciesのデータを取得
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
         $response2 = file_get_contents($url2);
         $species = json_decode($response2, true);
-        // echo "<pre>";
-        // var_dump($species);
 
-
+        //タイプのデータを取得(コンマ区切りで取得する)
         $type = "";
         $type_japanese = "";
         foreach ($datas["types"] as $key2 => $value2) {
             $type .= $value2["type"]["name"];
-
             $type_url = $value2["type"]["url"];
             $type_response = file_get_contents($type_url);
             $type_japanese_data = json_decode($type_response, true);
@@ -61,9 +59,9 @@ function card()
                 $type_japanese .= "、";
             }
         }
+        //カード形式でポケモンの情報を表示（カードをホバーすると裏返る。表は英語の情報、裏は日本語の情報を表示する）
         echo <<<_FORM_
         <div class="card">
-
             <div class="back">
             <div class="l-wrapper_02 card-radius_02">
                 <article class="card_02 card_02_front">
@@ -84,7 +82,6 @@ function card()
                 </article>
         </div>
             </div>
-
             <div class="front">
                 <div class="l-wrapper_02 card-radius_02">
                     <article class="card_02 card_02_back">
@@ -109,9 +106,11 @@ function card()
         _FORM_;
     }
     echo "</div>";
-    # ページの数を取得し、表示
+
+    // ページング機能の実装
     echo "<div class='paging'>";
     for ($i = 1; $i <= $page; $i++) {
+        //現在のページの時は黄色でそれ以外は水色で表示する
         if ($i == $sel_page) {
             $button = "now_btn";
         } else {
@@ -127,6 +126,7 @@ function card()
     }
     echo "</div>";
 
+    //セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
     if ($one_page == 10) {
         echo <<<_FORM_
         <form action='pokemon.php' method='post'>
