@@ -112,22 +112,17 @@ function card(){
     echo "<div class='paging'>";
     for($i=1; $i<=$page; $i++){
         if($i == $sel_page){
-            echo "
-            <form action='pokemon.php' method='post'>
-                <input type='hidden' name='sel_page' value='{$i}'>
-                <input type='hidden' name='select_page' value='{$one_page}'>
-                <input type='submit' class='now_btn' value='{$i}' class='paging'>
-            </form>
-            ";
+            $button="now_btn";
         }else{
-            echo "
-            <form action='pokemon.php' method='post'>
-                <input type='hidden' name='sel_page' value='{$i}'>
-                <input type='hidden' name='select_page' value='{$one_page}'>
-                <input type='submit' class='other_btn' value='{$i}' class='paging'>
-            </form>
-            ";
+            $button="other_btn";
         }
+        echo "
+        <form action='pokemon.php' method='post'>
+            <input type='hidden' name='sel_page' value='{$i}'>
+            <input type='hidden' name='select_page' value='{$one_page}'>
+            <input type='submit' class='{$button}' value='{$i}' class='paging'>
+        </form>
+        ";
     }
     echo "</div>";
 
