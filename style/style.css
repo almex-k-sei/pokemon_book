@@ -5,8 +5,11 @@
 
 /* 背景色 */
 body {
-  background: rgb(254, 246, 247);
-}
+  background-color: #fff;
+  background-image:
+  linear-gradient(#eee .1em, transparent .1em);
+  background-size: 100% 1.2em;
+  }
 h1{
   text-align: center;
   font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -22,6 +25,7 @@ h1{
 .paging {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .l-wrapper_02 {
@@ -179,11 +183,15 @@ h1{
   cursor: pointer;
 }
 .other_btn:hover {
-  opacity: 0.5;
+  opacity: 0.8;
+  background-color: aqua;
+  color:red;
 }
 /* セレクトボックス */
 select,
 option {
+  position: absolute;
   border: black 2px inset;
   cursor: pointer;
+  right: 20px;
 }
