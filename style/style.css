@@ -5,8 +5,11 @@
 
 /* 背景色 */
 body {
-  background: rgb(254, 246, 247);
-}
+  background-color: #fff;
+  background-image:
+  linear-gradient(#eee .1em, transparent .1em);
+  background-size: 100% 1.2em;
+  }
 h1{
   text-align: center;
   font-family: 'M PLUS Rounded 1c', sans-serif;
