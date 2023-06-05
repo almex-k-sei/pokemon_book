@@ -19,12 +19,13 @@ body {
 
 .card-radius_02 {
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
 }
 
 .card_02 {
   box-shadow: 0 0 0px rgba(0, 0, 0, .16);
+  border: 1px solid black;
   color: #212121;
   text-decoration: none;
   height: 540px;
