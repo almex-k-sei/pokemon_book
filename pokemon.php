@@ -222,7 +222,18 @@ function card()
     <title>ポケモンずかん　勢井</title>
 </head>
 <body>
-    <h1>ポケモンずかん</h1>
-    <?php card(); ?>
+    <header>
+        <div class="label"></div>
+        <h1>ポケモンずかん</h1>
+        <div class="base">
+        <div class="center">
+            <button class="center-button"></button>
+        </div>
+        </div>
+        <div class="shadow"></div>
+    </header>
+    <main>
+        <?php card(); ?>
+    </main>
 </body>
 </html>
