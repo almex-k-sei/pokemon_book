@@ -138,7 +138,7 @@ function card()
     <form action='pokemon.php' method='post'>
         <input type='hidden' name='sel_page' value='{$backpage}'>
         <input type='hidden' name='select_page' value='{$one_page}'>
-        <input type='submit' class='other_btn' value='前へ' class='paging'>
+        <input type='submit' class='other_btn' value='＜' class='paging'>
     </form>
     ";
     //数字ボタンの実装
@@ -169,7 +169,7 @@ function card()
     <form action='pokemon.php' method='post'>
         <input type='hidden' name='sel_page' value='{$nextpage}'>
         <input type='hidden' name='select_page' value='{$one_page}'>
-        <input type='submit' class='other_btn' value='次へ' class='paging'>
+        <input type='submit' class='other_btn' value='＞' class='paging'>
     </form>
     ";
     echo "</div>";
