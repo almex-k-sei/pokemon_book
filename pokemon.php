@@ -14,6 +14,10 @@ function getItems($url,$name) {
     $res = getCacheContents($url, "./cache/{$name}cache");
     return json_decode($res,true);
   }
+function getImage($url,$name) {
+    $res = getCacheContents($url, "./image/{$name}.png");
+    return $res;
+}
 
 function card()
 {
@@ -64,6 +68,9 @@ function card()
         // $species = json_decode($response2, true);
         $species = getItems($url2,"species".$datas["id"]);
 
+        //画像の取得
+        getImage($datas['sprites']['front_default'],"front_image".$datas["id"]);
+        getImage($datas['sprites']['back_default'],"back_image".$datas["id"]);
         //タイプのデータを取得(コンマ区切りで取得する)
         $type = "";
         $type_japanese = "";
@@ -88,7 +95,7 @@ function card()
                     <div class="card__header_02">
                     <p class="card__title_02 card__title_02_front">{$value["name"]}</p>
                     <figure class="card__thumbnail_02 card__thumbnail_02_front">
-                        <img src="{$datas['sprites']['front_default']}" class="image_size">
+                        <img src="./image/front_image{$datas["id"]}.png" class="image_size">
                     </figure>
                     </div>
                     <div class="card__body_02">
@@ -108,7 +115,7 @@ function card()
                         <div class="card__header_02">
                         <p class="card__title_02 card__title_02_back">{$species["names"][0]["name"]}</p>
                         <figure class="card__thumbnail_02 card__thumbnail_02_back">
-                            <img src="{$datas['sprites']['back_default']}" class="image_size">
+                            <img src="./image/back_image{$datas["id"]}.png" class="image_size">
                         </figure>
                         </div>
                         <div class="card__body_02">
