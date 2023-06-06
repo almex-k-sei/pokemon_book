@@ -225,7 +225,6 @@ function card()
     <header>
         <div class="label"></div>
         <h1>ポケモンずかん</h1>
-        <h2>勢井 貴城</h2>
         <div class="base">
         <div class="center">
             <button class="center-button"></button>

@@ -14,7 +14,9 @@ body {
   }
 header{
   /* background-color: rgb(184, 18, 18); */
-  background:linear-gradient(90deg,#CCCC00	0%,#CCCC00	 25%,darkred 25%,darkred 100%);
+  /* background:linear-gradient(90deg,#CCCC00	0%,#CCCC00	 25%,darkred 25%,darkred 100%); */
+  /* background:linear-gradient(90deg,#88c8b0 0%,#88c8b0 50%,#90c686 50%,#90c686 100%); */
+  background: #88c8b0;
   width: 100%;
   height:100px;
   position: relative;
@@ -223,14 +225,17 @@ option {
   overflow: hidden;
 }
 
-.shadow {
+/* .shadow {
   margin: auto;
+  position: absolute;
+  top: 20px;
+  right: 50px;
   width: 100px;
   height: 4px;
   border-radius: 50%;
   background-color: rgba(0,0,0,0.8);
   filter: blur(6px);
-}
+} */
 
 .center {
   border-radius: 50%;
