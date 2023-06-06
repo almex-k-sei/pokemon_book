@@ -11,7 +11,7 @@ function getCacheContents($url, $cachePath, $cacheLimit = 86400) {
     }
 }
 function getItems($url,$name) {
-    $res = getCacheContents($url, "./cash/{$name}cache");
+    $res = getCacheContents($url, "./cache/{$name}cache");
     return json_decode($res,true);
   }
 
@@ -36,7 +36,7 @@ function card()
         $one_page = $_POST["select_page"];
     }
 
-    $colum_length = 100; //表示するデータの件数
+    $colum_length = 200; //表示するデータの件数
     $page = $colum_length / $one_page; //ページ数を取得
     $page = ceil($page); // 整数に直す。
     $now_page = ($sel_page - 1) * $one_page; // OFFSET を取得 ページ数 -1 * 20
