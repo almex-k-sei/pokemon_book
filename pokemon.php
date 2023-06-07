@@ -65,28 +65,30 @@ function main()
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
         $species = getItems($url2, "species" . $datas["id"]);
         // echo "<pre>";
-        // var_dump($species["flavor_text_entries"][0] );
+        // var_dump($species["flavor_text_entries"]);
         if(isset($species["names"][0]["name"])){
             $name_jpn = $species["names"][0]["name"];
         }else{
             $name_jpn = "名前が見つかりません";
         }
-        
-        foreach ($species["flavor_text_entries"] as $key_species => $value_species) {
-            if($value_species["language"]["name"] == "en"){
-                $description = $value_species["flavor_text"];
+        if(isset($species["flavor_text_entries"])){
+            foreach ($species["flavor_text_entries"] as $key_species => $value_species) {
+                if($value_species["language"]["name"] == "en"){
+                    $description = $value_species["flavor_text"];
+                    break;
+                }
+            }
+            foreach ($species["flavor_text_entries"] as $key_species_j => $value_species_j) {
+                if($value_species_j["language"]["name"] == "ja-Hrkt"){
+                    $description_jpn = $value_species_j["flavor_text"];
+                    break;
+                }
             }
         }
         if(!isset($description)){
             $description = "Sorry.We could not find the description.";
         }
 
-
-        foreach ($species["flavor_text_entries"] as $key_species_j => $value_species_j) {
-            if($value_species_j["language"]["name"] == "ja"){
-                $description_jpn = $value_species_j["flavor_text"];
-            }
-        }
         if(!isset($description_jpn)){
             $description_jpn = "申し訳ございません。説明文が見当たりませんでした。";
         }
