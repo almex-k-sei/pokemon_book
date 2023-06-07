@@ -80,7 +80,7 @@ function card()
             // $type_response = file_get_contents($type_url);
             // $type_japanese_data = json_decode($type_response, true);
             $type_japanese_data = getItems($type_url,"types".$value2["type"]["name"]);
-            $type_japanese .= $type_japanese_data["names"][2]["name"];
+            $type_japanese .= $type_japanese_data["names"][0]["name"];
             if ($key2 < count($datas["types"]) - 1) {
                 $type .= ",";
                 $type_japanese .= "、";
