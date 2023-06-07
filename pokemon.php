@@ -44,8 +44,7 @@ function main()
     if (isset($_POST["select_page"])) {
         $one_page = $_POST["select_page"];
     }
-
-    $colum_length = 200; //表示するデータの件数
+    $colum_length = 1010; //表示するデータの件数
     $page = $colum_length / $one_page; //ページ数を取得
     $page = ceil($page); // 整数に直す。
     $now_page = ($sel_page - 1) * $one_page; // OFFSET を取得 ページ数 -1 * 20
@@ -96,6 +95,9 @@ function main()
 
 function card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese)
 {
+    $japan_weight = $datas["weight"]/10;
+    $japan_height = $datas["height"]/10;
+
     //カード形式でポケモンの情報を表示（カードをホバーすると裏返る。表は英語の情報、裏は日本語の情報を表示する）
     echo <<<_FORM_
     <div class="card">
@@ -110,8 +112,8 @@ function card($front_color, $value, $datas, $type, $species, $back_color, $type_
                 </div>
                 <div class="card__body_02">
                 <p class="card__text2_02">
-                <p><b>weight：</b>{$datas["weight"]}</p>
                 <p><b>height：</b>{$datas["height"]}</p>
+                <p><b>weight：</b>{$datas["weight"]}</p>
                 <p><b>type：</b>{$type}</p>
                 <p><b>description:</b>{$species["flavor_text_entries"][11]["flavor_text"]}</p>
                 </p>
@@ -130,8 +132,8 @@ function card($front_color, $value, $datas, $type, $species, $back_color, $type_
                     </div>
                     <div class="card__body_02">
                     <p class="card__text2_02">
-                    <p><b>重さ：</b>{$datas["weight"]}</p>
-                    <p><b>高さ：</b>{$datas["height"]}</p>
+                    <p><b>高さ：</b>{$japan_height}[m]</p>
+                    <p><b>重さ：</b>{$japan_weight}[kg]</p>
                     <p><b>タイプ：</b>{$type_japanese}</p>
                     <p><b>説明:</b>{$species["flavor_text_entries"][22]["flavor_text"]}</p>
                     </p>
@@ -152,6 +154,15 @@ function paging_button($sel_page, $one_page, $page)
     } else {
         $backpage = 1;
     }
+    $nextpage = $sel_page + 1;
+    echo "
+    <form action='pokemon.php' method='post'>
+    <input type='hidden' name='sel_page' value='1'>
+    <input type='hidden' name='select_page' value='{$one_page}'>
+    <input type='submit' class='other_btn' value='＜＜' class='paging'>
+    </form>
+    ";
+
     echo "
     <form action='pokemon.php' method='post'>
     <input type='hidden' name='sel_page' value='{$backpage}'>
@@ -161,28 +172,31 @@ function paging_button($sel_page, $one_page, $page)
     ";
     //数字ボタンの実装
     $count = 0;
-    for ($i = 1; $i <= $page; $i++) {
+    for ($i = $sel_page - 5; $i <= $sel_page + 5; $i++) {
         //現在のページの時は黄色でそれ以外は水色で表示する
         if ($i == $sel_page) {
             $button = "now_btn";
         } else {
             $button = "other_btn";
         }
-        echo "
-        <form action='pokemon.php' method='post'>
-            <input type='hidden' name='sel_page' value='{$i}'>
-            <input type='hidden' name='select_page' value='{$one_page}'>
-            <input type='submit' class='{$button}' value='{$i}' class='paging'>
-        </form>
-        ";
-        $count++;
+        if($i > 0  && $i < 1010){
+            echo "
+            <form action='pokemon.php' method='post'>
+                <input type='hidden' name='sel_page' value='{$i}'>
+                <input type='hidden' name='select_page' value='{$one_page}'>
+                <input type='submit' class='{$button}' value='{$i}' class='paging'>
+            </form>
+            ";
+        }
+
     }
     //次へボタンの実装
-    if ($sel_page < $count) {
-        $nextpage = $sel_page + 1;
-    } else {
-        $nextpage = $count;
-    }
+    // if ($sel_page < $count) {
+    //     $nextpage = $sel_page + 1;
+    // } else {
+    //     $nextpage = $count;
+    // }
+    $nextpage = $sel_page + 1;
     echo "
     <form action='pokemon.php' method='post'>
     <input type='hidden' name='sel_page' value='{$nextpage}'>
@@ -190,7 +204,15 @@ function paging_button($sel_page, $one_page, $page)
     <input type='submit' class='other_btn' value='＞' class='paging'>
     </form>
     ";
+    echo "
+    <form action='pokemon.php' method='post'>
+    <input type='hidden' name='sel_page' value='89'>
+    <input type='hidden' name='select_page' value='{$one_page}'>
+    <input type='submit' class='other_btn' value='＞＞' class='paging'>
+    </form>
+    ";
     echo "</div>";
+
 }
 
 //セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
