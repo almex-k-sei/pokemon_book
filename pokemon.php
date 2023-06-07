@@ -44,8 +44,7 @@ function main()
     if (isset($_POST["select_page"])) {
         $one_page = $_POST["select_page"];
     }
-
-    $colum_length = 200; //表示するデータの件数
+    $colum_length = 1010; //表示するデータの件数
     $page = $colum_length / $one_page; //ページ数を取得
     $page = ceil($page); // 整数に直す。
     $now_page = ($sel_page - 1) * $one_page; // OFFSET を取得 ページ数 -1 * 20
@@ -56,6 +55,7 @@ function main()
     $now_page = ($sel_page - 1) * $one_page;
     $data = getItems($url, "data" . $one_page . "," . $now_page);
     //フレキシブルボックスで表示
+    selectbox($one_page);
     echo "<div class='flex'>";
     foreach ($data['results'] as $value) {
         //オフセットの範囲のポケモンデータを取得
@@ -64,9 +64,33 @@ function main()
         //idからspeciesのデータを取得
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
         $species = getItems($url2, "species" . $datas["id"]);
+
+        if(isset($species["names"][0]["name"])){
+            $name_jpn = $species["names"][0]["name"];
+        }else{
+            $name_jpn = "名前が見つかりません";
+        }
+        
+        if(isset($species["flavor_text_entries"][11]["flavor_text"])){
+            $description = $species["flavor_text_entries"][11]["flavor_text"];
+        }else{
+            $description = "Sorry.We could not find the description.";
+        }
+        if(isset($species["flavor_text_entries"][22]["flavor_text"])){
+            $description_jpn = $species["flavor_text_entries"][22]["flavor_text"];
+        } else{
+            $description_jpn = "申し訳ございません。説明文が見当たりませんでした。";
+        }
+
         //画像の取得
-        getImage($datas['sprites']['front_default'], "front_image" . $datas["id"]);
-        getImage($datas['sprites']['back_default'], "back_image" . $datas["id"]);
+        if(isset($datas['sprites']['front_default'])){
+            getImage($datas['sprites']['front_default'], "front_image" . $datas["id"]);
+        }
+        if(isset($datas['sprites']['back_default'])){
+            getImage($datas['sprites']['back_default'], "back_image" . $datas["id"]);
+        }
+        
+        
         //タイプのデータを取得(コンマ区切りで取得する)
         $type = "";
         $type_japanese = "";
@@ -87,53 +111,56 @@ function main()
                 $type_japanese .= "、";
             }
         }
-        card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese);
+        card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese,$description,$description_jpn,$name_jpn);
     }
     echo "</div>";
     paging_button($sel_page, $one_page, $page);
-    selectbox($one_page);
+
 }
 
-function card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese)
+function card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese, $description, $description_jpn,$name_jpn)
 {
+    $japan_weight = $datas["weight"]/10;
+    $japan_height = $datas["height"]/10;
+
     //カード形式でポケモンの情報を表示（カードをホバーすると裏返る。表は英語の情報、裏は日本語の情報を表示する）
     echo <<<_FORM_
     <div class="card">
         <div class="back">
-        <div class="l-wrapper_02 card-radius_02">
-            <article class="card_02 card_02_front" style="background-color: {$front_color};">
-                <div class="card__header_02">
-                <p class="card__title_02">{$value["name"]}</p>
-                <figure class="card__thumbnail_02 card__thumbnail_02_front">
-                    <img src="./image/front_image{$datas["id"]}.png" class="image_size">
-                </figure>
-                </div>
-                <div class="card__body_02">
-                <p class="card__text2_02">
-                <p><b>weight：</b>{$datas["weight"]}</p>
-                <p><b>height：</b>{$datas["height"]}</p>
-                <p><b>type：</b>{$type}</p>
-                <p><b>description:</b>{$species["flavor_text_entries"][11]["flavor_text"]}</p>
-                </p>
-                </div>    
-            </article>
-    </div>
+            <div class="l-wrapper_02 card-radius_02">
+                <article class="card_02 card_02_front" style="background-color: {$front_color};">
+                    <div class="card__header_02">
+                    <p class="card__title_02">{$value["name"]}</p>
+                    <figure class="card__thumbnail_02 card__thumbnail_02_front">
+                        <img src="./image/front_image{$datas["id"]}.png" class="image_size">
+                    </figure>
+                    </div>
+                    <div class="card__body_02">
+                    <p class="card__text2_02">
+                    <p><b>height：</b>{$datas["height"]}</p>
+                    <p><b>weight：</b>{$datas["weight"]}</p>
+                    <p><b>type：</b>{$type}</p>
+                    <p><b>description:</b>{$description}</p>
+                    </p>
+                    </div>    
+                </article>
+            </div>
         </div>
         <div class="front">
             <div class="l-wrapper_02 card-radius_02">
                 <article class="card_02 card_02_back" style="background-color: {$back_color};">
                     <div class="card__header_02">
-                    <p class="card__title_02">{$species["names"][0]["name"]}</p>
+                    <p class="card__title_02">{$name_jpn}</p>
                     <figure class="card__thumbnail_02 card__thumbnail_02_back">
                         <img src="./image/back_image{$datas["id"]}.png" class="image_size">
                     </figure>
                     </div>
                     <div class="card__body_02">
                     <p class="card__text2_02">
-                    <p><b>重さ：</b>{$datas["weight"]}</p>
-                    <p><b>高さ：</b>{$datas["height"]}</p>
+                    <p><b>高さ：</b>{$japan_height}[m]</p>
+                    <p><b>重さ：</b>{$japan_weight}[kg]</p>
                     <p><b>タイプ：</b>{$type_japanese}</p>
-                    <p><b>説明:</b>{$species["flavor_text_entries"][22]["flavor_text"]}</p>
+                    <p><b>説明:</b>{$description_jpn}</p>
                     </p>
                     </div>    
                 </article>
@@ -152,6 +179,15 @@ function paging_button($sel_page, $one_page, $page)
     } else {
         $backpage = 1;
     }
+    $nextpage = $sel_page + 1;
+    echo "
+    <form action='pokemon.php' method='post'>
+    <input type='hidden' name='sel_page' value='1'>
+    <input type='hidden' name='select_page' value='{$one_page}'>
+    <input type='submit' class='other_btn' value='＜＜' class='paging'>
+    </form>
+    ";
+
     echo "
     <form action='pokemon.php' method='post'>
     <input type='hidden' name='sel_page' value='{$backpage}'>
@@ -161,27 +197,29 @@ function paging_button($sel_page, $one_page, $page)
     ";
     //数字ボタンの実装
     $count = 0;
-    for ($i = 1; $i <= $page; $i++) {
+    for ($i = $sel_page - 5; $i <= $sel_page + 5; $i++) {
         //現在のページの時は黄色でそれ以外は水色で表示する
         if ($i == $sel_page) {
             $button = "now_btn";
         } else {
             $button = "other_btn";
         }
-        echo "
-        <form action='pokemon.php' method='post'>
-            <input type='hidden' name='sel_page' value='{$i}'>
-            <input type='hidden' name='select_page' value='{$one_page}'>
-            <input type='submit' class='{$button}' value='{$i}' class='paging'>
-        </form>
-        ";
-        $count++;
+        if($i > 0  && $i <= $page){
+            echo "
+            <form action='pokemon.php' method='post'>
+                <input type='hidden' name='sel_page' value='{$i}'>
+                <input type='hidden' name='select_page' value='{$one_page}'>
+                <input type='submit' class='{$button}' value='{$i}' class='paging'>
+            </form>
+            ";
+        }
+
     }
     //次へボタンの実装
-    if ($sel_page < $count) {
+    if ($sel_page < $page) {
         $nextpage = $sel_page + 1;
     } else {
-        $nextpage = $count;
+        $nextpage = $page;
     }
     echo "
     <form action='pokemon.php' method='post'>
@@ -190,7 +228,15 @@ function paging_button($sel_page, $one_page, $page)
     <input type='submit' class='other_btn' value='＞' class='paging'>
     </form>
     ";
+    echo "
+    <form action='pokemon.php' method='post'>
+    <input type='hidden' name='sel_page' value='{$page}'>
+    <input type='hidden' name='select_page' value='{$one_page}'>
+    <input type='submit' class='other_btn' value='＞＞' class='paging'>
+    </form>
+    ";
     echo "</div>";
+
 }
 
 //セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
