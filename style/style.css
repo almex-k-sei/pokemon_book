@@ -193,6 +193,8 @@ h1{
   background-color: white;
   background: yellow;
   color: red;
+  cursor: pointer;
+
 }
 /* それ以外のボタン */
 .other_btn {
@@ -208,6 +210,7 @@ h1{
   color: black;
   font-weight: bold;
   background-color: white;
+  cursor: pointer;
 }
 .other_btn:hover {
   background: linear-gradient(red 46%, black 46%, black 54%, white 54%);
@@ -236,17 +239,6 @@ option {
   overflow: hidden;
 }
 
-/* .shadow {
-  margin: auto;
-  position: absolute;
-  top: 20px;
-  right: 50px;
-  width: 100px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: rgba(0,0,0,0.8);
-  filter: blur(6px);
-} */
 
 .center {
   border-radius: 50%;
