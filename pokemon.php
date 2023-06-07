@@ -64,21 +64,32 @@ function main()
         //idからspeciesのデータを取得
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
         $species = getItems($url2, "species" . $datas["id"]);
-
+        // echo "<pre>";
+        // var_dump($species["flavor_text_entries"]);
         if(isset($species["names"][0]["name"])){
             $name_jpn = $species["names"][0]["name"];
         }else{
             $name_jpn = "名前が見つかりません";
         }
-        
-        if(isset($species["flavor_text_entries"][11]["flavor_text"])){
-            $description = $species["flavor_text_entries"][11]["flavor_text"];
-        }else{
+        if(isset($species["flavor_text_entries"])){
+            foreach ($species["flavor_text_entries"] as $key_species => $value_species) {
+                if($value_species["language"]["name"] == "en"){
+                    $description = $value_species["flavor_text"];
+                    break;
+                }
+            }
+            foreach ($species["flavor_text_entries"] as $key_species_j => $value_species_j) {
+                if($value_species_j["language"]["name"] == "ja-Hrkt"){
+                    $description_jpn = $value_species_j["flavor_text"];
+                    break;
+                }
+            }
+        }
+        if(!isset($description)){
             $description = "Sorry.We could not find the description.";
         }
-        if(isset($species["flavor_text_entries"][22]["flavor_text"])){
-            $description_jpn = $species["flavor_text_entries"][22]["flavor_text"];
-        } else{
+
+        if(!isset($description_jpn)){
             $description_jpn = "申し訳ございません。説明文が見当たりませんでした。";
         }
 
@@ -288,58 +299,58 @@ function type_color($type)
 {
     switch ($type) {
         case "normal":
-            $color = "orange";
+            $color = "#848d97";
             break;
         case "grass":
-            $color = "green";
+            $color = "#55b14b";
             break;
         case "poison":
-            $color = "purple";
+            $color = "#a958c5";
             break;
         case "fire":
-            $color = "red";
+            $color = "#fe9847";
             break;
         case "flying":
-            $color = "gold";
+            $color = "#8da9df";
             break;
         case "water":
-            $color = "blue";
+            $color = "#4e97d6";
             break;
         case "bug":
-            $color = "darkgreen";
+            $color = "#9dbf2b";
             break;
         case "electric":
-            $color = "#999900";
+            $color = "#f3d042";
             break;
         case "ground":
-            $color = "#955629";
+            $color = "#d27646";
             break;
         case "fairy":
-            $color = "pink";
+            $color = "#e983e0";
             break;
         case "fighting":
-            $color = "	#666699";
+            $color = "#ce3956";
             break;
         case "ice":
-            $color = "lightblue";
+            $color = "#68c6b8";
             break;
         case "psychic":
-            $color = "#CD853F";
+            $color = "#f76b70";
             break;
         case "rock":
-            $color = "gray";
+            $color = "#c2b181";
             break;
         case "steel":
-            $color = "lightgray";
+            $color = "#498b98";
             break;
         case "ghost":
-            $color = "darkglay";
+            $color = "#5260ae";
             break;
         case "dragon":
-            $color = "darkred";
+            $color = "#0765b7";
             break;
         case "dark":
-            $color = "black";
+            $color = "#50495a";
             break;
     }
     return $color;
