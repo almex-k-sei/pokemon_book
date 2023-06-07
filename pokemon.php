@@ -71,24 +71,23 @@ function main()
         }else{
             $name_jpn = "名前が見つかりません";
         }
-        if(isset($species["flavor_text_entries"][11]["flavor_text"])){
-            foreach ($species["flavor_text_entries"] as $key_species => $value_species) {
-                if($value_species["language"]["name"] == "en"){
-                    $description = $value_species["flavor_text"];
-                }
+        
+        foreach ($species["flavor_text_entries"] as $key_species => $value_species) {
+            if($value_species["language"]["name"] == "en"){
+                $description = $value_species["flavor_text"];
             }
-            // $description = $species["flavor_text_entries"][0]["flavor_text"];
-        }else{
+        }
+        if(!isset($description)){
             $description = "Sorry.We could not find the description.";
         }
 
-        if(isset($species["flavor_text_entries"][22]["flavor_text"])){
-            foreach ($species["flavor_text_entries"] as $key_species_j => $value_species_j) {
-                if($value_species["language"]["name"] == "ja"){
-                    $description = $value_species["flavor_text"];
-                }
+
+        foreach ($species["flavor_text_entries"] as $key_species_j => $value_species_j) {
+            if($value_species_j["language"]["name"] == "ja"){
+                $description_jpn = $value_species_j["flavor_text"];
             }
-        } else{
+        }
+        if(!isset($description_jpn)){
             $description_jpn = "申し訳ございません。説明文が見当たりませんでした。";
         }
 
