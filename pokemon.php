@@ -75,6 +75,13 @@ function card()
         $type = "";
         $type_japanese = "";
         foreach ($datas["types"] as $key2 => $value2) {
+            if($key2 == 0){
+                $front_color = type_color($value2["type"]["name"]);
+                $back_color = $front_color;
+            }else{
+                $back_color = type_color($value2["type"]["name"]);
+            }
+
             $type .= $value2["type"]["name"];
             $type_url = $value2["type"]["url"];
             // $type_response = file_get_contents($type_url);
@@ -86,14 +93,16 @@ function card()
                 $type_japanese .= "、";
             }
         }
+
+
         //カード形式でポケモンの情報を表示（カードをホバーすると裏返る。表は英語の情報、裏は日本語の情報を表示する）
         echo <<<_FORM_
         <div class="card">
             <div class="back">
             <div class="l-wrapper_02 card-radius_02">
-                <article class="card_02 card_02_front">
+                <article class="card_02 card_02_front" style="background-color: {$front_color};">
                     <div class="card__header_02">
-                    <p class="card__title_02 card__title_02_front">{$value["name"]}</p>
+                    <p class="card__title_02">{$value["name"]}</p>
                     <figure class="card__thumbnail_02 card__thumbnail_02_front">
                         <img src="./image/front_image{$datas["id"]}.png" class="image_size">
                     </figure>
@@ -111,9 +120,9 @@ function card()
             </div>
             <div class="front">
                 <div class="l-wrapper_02 card-radius_02">
-                    <article class="card_02 card_02_back">
+                    <article class="card_02 card_02_back" style="background-color: {$back_color};">
                         <div class="card__header_02">
-                        <p class="card__title_02 card__title_02_back">{$species["names"][0]["name"]}</p>
+                        <p class="card__title_02">{$species["names"][0]["name"]}</p>
                         <figure class="card__thumbnail_02 card__thumbnail_02_back">
                             <img src="./image/back_image{$datas["id"]}.png" class="image_size">
                         </figure>
@@ -214,6 +223,66 @@ function card()
     _FORM_;
     }
     echo "</div>";
+}
+
+function type_color($type){
+    switch ($type) {
+        case "normal":
+            $color = "orange";
+            break;
+        case "grass":
+            $color = "green";
+            break;
+        case "poison":
+            $color = "purple";
+            break;
+        case "fire":
+            $color = "red";
+            break;
+        case "flying":
+            $color = "gold";
+            break;
+        case "water":
+            $color = "blue";
+            break;
+        case "bug":
+            $color = "darkgreen";
+            break;
+        case "electric":
+            $color = "#999900";
+            break;
+        case "ground":
+            $color = "#955629";
+            break;
+        case "fairy":
+            $color = "pink";
+            break;
+        case "fighting":
+            $color = "	#666699";
+            break;
+        case "ice":
+            $color = "lightblue";
+            break;
+        case "psychic":
+            $color = "#CD853F";
+            break;
+        case "rock":
+            $color = "gray";
+            break;
+        case "steel":
+            $color = "lightgray";
+            break;
+        case "ghost":
+            $color = "darkglay";
+            break;
+        case "dragon":
+            $color = "darkred";
+            break;
+        case "dark":
+            $color = "black";
+            break;
+    }
+    return $color;
 }
 ?>
 
