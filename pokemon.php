@@ -288,58 +288,58 @@ function type_color($type)
 {
     switch ($type) {
         case "normal":
-            $color = "orange";
+            $color = "#848d97";
             break;
         case "grass":
-            $color = "green";
+            $color = "#55b14b";
             break;
         case "poison":
-            $color = "purple";
+            $color = "#a958c5";
             break;
         case "fire":
-            $color = "red";
+            $color = "#fe9847";
             break;
         case "flying":
-            $color = "gold";
+            $color = "#8da9df";
             break;
         case "water":
-            $color = "blue";
+            $color = "#4e97d6";
             break;
         case "bug":
-            $color = "darkgreen";
+            $color = "#9dbf2b";
             break;
         case "electric":
-            $color = "#999900";
+            $color = "#f3d042";
             break;
         case "ground":
-            $color = "#955629";
+            $color = "#d27646";
             break;
         case "fairy":
-            $color = "pink";
+            $color = "#e983e0";
             break;
         case "fighting":
-            $color = "	#666699";
+            $color = "#ce3956";
             break;
         case "ice":
-            $color = "lightblue";
+            $color = "#68c6b8";
             break;
         case "psychic":
-            $color = "#CD853F";
+            $color = "#f76b70";
             break;
         case "rock":
-            $color = "gray";
+            $color = "#c2b181";
             break;
         case "steel":
-            $color = "lightgray";
+            $color = "#498b98";
             break;
         case "ghost":
-            $color = "darkglay";
+            $color = "#5260ae";
             break;
         case "dragon":
-            $color = "darkred";
+            $color = "#0765b7";
             break;
         case "dark":
-            $color = "black";
+            $color = "#50495a";
             break;
     }
     return $color;
