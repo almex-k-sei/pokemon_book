@@ -85,11 +85,17 @@ function main()
         //画像の取得
         if(isset($datas['sprites']['front_default'])){
             getImage($datas['sprites']['front_default'], "front_image" . $datas["id"]);
+            $front_image = "./image/front_image{$datas["id"]}.png";
+        }else{
+            $front_image = "./style/no_image.png";
         }
+
         if(isset($datas['sprites']['back_default'])){
             getImage($datas['sprites']['back_default'], "back_image" . $datas["id"]);
+            $back_image = "./image/back_image{$datas["id"]}.png";
+        }else{
+            $back_image = "./style/no_image.png";
         }
-        
         
         //タイプのデータを取得(コンマ区切りで取得する)
         $type = "";
@@ -111,14 +117,14 @@ function main()
                 $type_japanese .= "、";
             }
         }
-        card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese,$description,$description_jpn,$name_jpn);
+        card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese,$description,$description_jpn,$name_jpn, $front_image, $back_image);
     }
     echo "</div>";
     paging_button($sel_page, $one_page, $page);
 
 }
 
-function card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese, $description, $description_jpn,$name_jpn)
+function card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese, $description, $description_jpn,$name_jpn, $front_image, $back_image)
 {
     $japan_weight = $datas["weight"]/10;
     $japan_height = $datas["height"]/10;
@@ -132,7 +138,7 @@ function card($front_color, $value, $datas, $type, $species, $back_color, $type_
                     <div class="card__header_02">
                     <p class="card__title_02">{$value["name"]}</p>
                     <figure class="card__thumbnail_02 card__thumbnail_02_front">
-                        <img src="./image/front_image{$datas["id"]}.png" class="image_size">
+                        <img src={$front_image} class="image_size">
                     </figure>
                     </div>
                     <div class="card__body_02">
@@ -152,7 +158,7 @@ function card($front_color, $value, $datas, $type, $species, $back_color, $type_
                     <div class="card__header_02">
                     <p class="card__title_02">{$name_jpn}</p>
                     <figure class="card__thumbnail_02 card__thumbnail_02_back">
-                        <img src="./image/back_image{$datas["id"]}.png" class="image_size">
+                        <img src={$back_image} class="image_size">
                     </figure>
                     </div>
                     <div class="card__body_02">
