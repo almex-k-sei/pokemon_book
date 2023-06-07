@@ -64,7 +64,6 @@ function main()
         //idからspeciesのデータを取得
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
         $species = getItems($url2, "species" . $datas["id"]);
-
         //画像の取得
         getImage($datas['sprites']['front_default'], "front_image" . $datas["id"]);
         getImage($datas['sprites']['back_default'], "back_image" . $datas["id"]);
@@ -81,8 +80,6 @@ function main()
 
             $type .= $value2["type"]["name"];
             $type_url = $value2["type"]["url"];
-            // $type_response = file_get_contents($type_url);
-            // $type_japanese_data = json_decode($type_response, true);
             $type_japanese_data = getItems($type_url, "types" . $value2["type"]["name"]);
             $type_japanese .= $type_japanese_data["names"][0]["name"];
             if ($key2 < count($datas["types"]) - 1) {
@@ -136,7 +133,7 @@ function card($front_color, $value, $datas, $type, $species, $back_color, $type_
                     <p><b>重さ：</b>{$datas["weight"]}</p>
                     <p><b>高さ：</b>{$datas["height"]}</p>
                     <p><b>タイプ：</b>{$type_japanese}</p>
-                    <p><b>説明:</b>{$species["flavor_text_entries"][29]["flavor_text"]}</p>
+                    <p><b>説明:</b>{$species["flavor_text_entries"][22]["flavor_text"]}</p>
                     </p>
                     </div>    
                 </article>
