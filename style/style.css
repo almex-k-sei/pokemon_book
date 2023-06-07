@@ -218,10 +218,10 @@ h1{
 /* セレクトボックス */
 select,
 option {
-  position: absolute;
+  position: relative;
   border: black 2px inset;
+  text-align: center;
   cursor: pointer;
-  right: 20px;
 }
 
 /* モンスターボール */

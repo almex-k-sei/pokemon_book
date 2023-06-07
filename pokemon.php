@@ -55,6 +55,7 @@ function main()
     $now_page = ($sel_page - 1) * $one_page;
     $data = getItems($url, "data" . $one_page . "," . $now_page);
     //フレキシブルボックスで表示
+    selectbox($one_page);
     echo "<div class='flex'>";
     foreach ($data['results'] as $value) {
         //オフセットの範囲のポケモンデータを取得
@@ -114,7 +115,7 @@ function main()
     }
     echo "</div>";
     paging_button($sel_page, $one_page, $page);
-    selectbox($one_page);
+
 }
 
 function card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese, $description, $description_jpn,$name_jpn)
@@ -126,24 +127,24 @@ function card($front_color, $value, $datas, $type, $species, $back_color, $type_
     echo <<<_FORM_
     <div class="card">
         <div class="back">
-        <div class="l-wrapper_02 card-radius_02">
-            <article class="card_02 card_02_front" style="background-color: {$front_color};">
-                <div class="card__header_02">
-                <p class="card__title_02">{$value["name"]}</p>
-                <figure class="card__thumbnail_02 card__thumbnail_02_front">
-                    <img src="./image/front_image{$datas["id"]}.png" class="image_size">
-                </figure>
-                </div>
-                <div class="card__body_02">
-                <p class="card__text2_02">
-                <p><b>height：</b>{$datas["height"]}</p>
-                <p><b>weight：</b>{$datas["weight"]}</p>
-                <p><b>type：</b>{$type}</p>
-                <p><b>description:</b>{$description}</p>
-                </p>
-                </div>    
-            </article>
-    </div>
+            <div class="l-wrapper_02 card-radius_02">
+                <article class="card_02 card_02_front" style="background-color: {$front_color};">
+                    <div class="card__header_02">
+                    <p class="card__title_02">{$value["name"]}</p>
+                    <figure class="card__thumbnail_02 card__thumbnail_02_front">
+                        <img src="./image/front_image{$datas["id"]}.png" class="image_size">
+                    </figure>
+                    </div>
+                    <div class="card__body_02">
+                    <p class="card__text2_02">
+                    <p><b>height：</b>{$datas["height"]}</p>
+                    <p><b>weight：</b>{$datas["weight"]}</p>
+                    <p><b>type：</b>{$type}</p>
+                    <p><b>description:</b>{$description}</p>
+                    </p>
+                    </div>    
+                </article>
+            </div>
         </div>
         <div class="front">
             <div class="l-wrapper_02 card-radius_02">
