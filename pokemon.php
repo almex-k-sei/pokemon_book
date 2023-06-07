@@ -1,25 +1,30 @@
 <?php
-function getCacheContents($url, $cachePath, $cacheLimit = 86400) {
-    if(file_exists($cachePath) && filemtime($cachePath) + $cacheLimit > time()) {
-      // キャッシュ有効期間内なのでキャッシュの内容を返す
-      return file_get_contents($cachePath);
+function getCacheContents($url, $cachePath, $cacheLimit = 86400)
+{
+    if (file_exists($cachePath) && filemtime($cachePath) + $cacheLimit > time()) {
+        // キャッシュ有効期間内なのでキャッシュの内容を返す
+        return file_get_contents($cachePath);
     } else {
-      // キャッシュがないか、期限切れなので取得しなおす
-      $data = file_get_contents($url);
-      file_put_contents($cachePath, $data, LOCK_EX); // キャッシュに保存
-      return $data;
+        // キャッシュがないか、期限切れなので取得しなおす
+        $data = file_get_contents($url);
+        file_put_contents($cachePath, $data, LOCK_EX); // キャッシュに保存
+        return $data;
     }
 }
-function getItems($url,$name) {
+
+function getItems($url, $name)
+{
     $res = getCacheContents($url, "./cache/{$name}cache");
-    return json_decode($res,true);
-  }
-function getImage($url,$name) {
+    return json_decode($res, true);
+}
+
+function getImage($url, $name)
+{
     $res = getCacheContents($url, "./image/{$name}.png");
     return $res;
 }
 
-function card()
+function main()
 {
     //$ページングした時のページを格納（初期値として１を代入）
     if (!isset($_POST["sel_page"])) {
@@ -47,105 +52,111 @@ function card()
 
     /** PokeAPI のデータを取得する(id=11から20のポケモンのデータ) */
     $url = "https://pokeapi.co/api/v2/pokemon/?limit={$one_page}&offset={$now_page}";
-    // レスポンスデータは JSON 形式なので、デコードして連想配列にする
-    // $response = file_get_contents($url);
-    // 取得結果をループさせてポケモンの名前を表示する
-    // $data = json_decode($response, true);
     //OFFSET を取得 ページ数 -1 * 20
-    $now_page = ($sel_page - 1) * $one_page; 
-    $data = getItems($url,"data".$one_page.",".$now_page);
+    $now_page = ($sel_page - 1) * $one_page;
+    $data = getItems($url, "data" . $one_page . "," . $now_page);
     //フレキシブルボックスで表示
     echo "<div class='flex'>";
     foreach ($data['results'] as $value) {
         //オフセットの範囲のポケモンデータを取得
-        // $response = file_get_contents($value["url"]);
-        // $datas = json_decode($response, true);
         // var_dump($value["name"]);
-        $datas = getItems($value["url"],"pokemon".$value["name"]);
+        $datas = getItems($value["url"], "pokemon" . $value["name"]);
         //idからspeciesのデータを取得
         $url2 = "https://pokeapi.co/api/v2/pokemon-species/{$datas['id']}/";
-        // $response2 = file_get_contents($url2);
-        // $species = json_decode($response2, true);
-        $species = getItems($url2,"species".$datas["id"]);
-
+        $species = getItems($url2, "species" . $datas["id"]);
         //画像の取得
-        getImage($datas['sprites']['front_default'],"front_image".$datas["id"]);
-        getImage($datas['sprites']['back_default'],"back_image".$datas["id"]);
+        getImage($datas['sprites']['front_default'], "front_image" . $datas["id"]);
+        getImage($datas['sprites']['back_default'], "back_image" . $datas["id"]);
         //タイプのデータを取得(コンマ区切りで取得する)
         $type = "";
         $type_japanese = "";
         foreach ($datas["types"] as $key2 => $value2) {
+            if ($key2 == 0) {
+                $front_color = type_color($value2["type"]["name"]);
+                $back_color = $front_color;
+            } else {
+                $back_color = type_color($value2["type"]["name"]);
+            }
+
             $type .= $value2["type"]["name"];
             $type_url = $value2["type"]["url"];
-            // $type_response = file_get_contents($type_url);
-            // $type_japanese_data = json_decode($type_response, true);
-            $type_japanese_data = getItems($type_url,"types".$value2["type"]["name"]);
-            $type_japanese .= $type_japanese_data["names"][2]["name"];
+            $type_japanese_data = getItems($type_url, "types" . $value2["type"]["name"]);
+            $type_japanese .= $type_japanese_data["names"][0]["name"];
             if ($key2 < count($datas["types"]) - 1) {
                 $type .= ",";
                 $type_japanese .= "、";
             }
         }
-        //カード形式でポケモンの情報を表示（カードをホバーすると裏返る。表は英語の情報、裏は日本語の情報を表示する）
-        echo <<<_FORM_
-        <div class="card">
-            <div class="back">
+        card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese);
+    }
+    echo "</div>";
+    paging_button($sel_page, $one_page, $page);
+    selectbox($one_page);
+}
+
+function card($front_color, $value, $datas, $type, $species, $back_color, $type_japanese)
+{
+    //カード形式でポケモンの情報を表示（カードをホバーすると裏返る。表は英語の情報、裏は日本語の情報を表示する）
+    echo <<<_FORM_
+    <div class="card">
+        <div class="back">
+        <div class="l-wrapper_02 card-radius_02">
+            <article class="card_02 card_02_front" style="background-color: {$front_color};">
+                <div class="card__header_02">
+                <p class="card__title_02">{$value["name"]}</p>
+                <figure class="card__thumbnail_02 card__thumbnail_02_front">
+                    <img src="./image/front_image{$datas["id"]}.png" class="image_size">
+                </figure>
+                </div>
+                <div class="card__body_02">
+                <p class="card__text2_02">
+                <p><b>weight：</b>{$datas["weight"]}</p>
+                <p><b>height：</b>{$datas["height"]}</p>
+                <p><b>type：</b>{$type}</p>
+                <p><b>description:</b>{$species["flavor_text_entries"][11]["flavor_text"]}</p>
+                </p>
+                </div>    
+            </article>
+    </div>
+        </div>
+        <div class="front">
             <div class="l-wrapper_02 card-radius_02">
-                <article class="card_02 card_02_front">
+                <article class="card_02 card_02_back" style="background-color: {$back_color};">
                     <div class="card__header_02">
-                    <p class="card__title_02 card__title_02_front">{$value["name"]}</p>
-                    <figure class="card__thumbnail_02 card__thumbnail_02_front">
-                        <img src="./image/front_image{$datas["id"]}.png" class="image_size">
+                    <p class="card__title_02">{$species["names"][0]["name"]}</p>
+                    <figure class="card__thumbnail_02 card__thumbnail_02_back">
+                        <img src="./image/back_image{$datas["id"]}.png" class="image_size">
                     </figure>
                     </div>
                     <div class="card__body_02">
                     <p class="card__text2_02">
-                    <p><b>weight：</b>{$datas["weight"]}</p>
-                    <p><b>height：</b>{$datas["height"]}</p>
-                    <p><b>type：</b>{$type}</p>
-                    <p><b>description:</b>{$species["flavor_text_entries"][11]["flavor_text"]}</p>
+                    <p><b>重さ：</b>{$datas["weight"]}</p>
+                    <p><b>高さ：</b>{$datas["height"]}</p>
+                    <p><b>タイプ：</b>{$type_japanese}</p>
+                    <p><b>説明:</b>{$species["flavor_text_entries"][22]["flavor_text"]}</p>
                     </p>
                     </div>    
                 </article>
-        </div>
-            </div>
-            <div class="front">
-                <div class="l-wrapper_02 card-radius_02">
-                    <article class="card_02 card_02_back">
-                        <div class="card__header_02">
-                        <p class="card__title_02 card__title_02_back">{$species["names"][0]["name"]}</p>
-                        <figure class="card__thumbnail_02 card__thumbnail_02_back">
-                            <img src="./image/back_image{$datas["id"]}.png" class="image_size">
-                        </figure>
-                        </div>
-                        <div class="card__body_02">
-                        <p class="card__text2_02">
-                        <p><b>重さ：</b>{$datas["weight"]}</p>
-                        <p><b>高さ：</b>{$datas["height"]}</p>
-                        <p><b>タイプ：</b>{$type_japanese}</p>
-                        <p><b>説明:</b>{$species["flavor_text_entries"][29]["flavor_text"]}</p>
-                        </p>
-                        </div>    
-                    </article>
-                </div>
             </div>
         </div>
-        _FORM_;
-    }
-    echo "</div>";
+    </div>
+    _FORM_;
+}
+function paging_button($sel_page, $one_page, $page)
+{
     // ページング機能の実装
     echo "<div class='paging'>";
     //前へボタンの実装
-    if($sel_page > 1){
-        $backpage = $sel_page -1;
-    }else{
+    if ($sel_page > 1) {
+        $backpage = $sel_page - 1;
+    } else {
         $backpage = 1;
     }
     echo "
     <form action='pokemon.php' method='post'>
-        <input type='hidden' name='sel_page' value='{$backpage}'>
-        <input type='hidden' name='select_page' value='{$one_page}'>
-        <input type='submit' class='other_btn' value='＜' class='paging'>
+    <input type='hidden' name='sel_page' value='{$backpage}'>
+    <input type='hidden' name='select_page' value='{$one_page}'>
+    <input type='submit' class='other_btn' value='＜' class='paging'>
     </form>
     ";
     //数字ボタンの実装
@@ -167,21 +178,25 @@ function card()
         $count++;
     }
     //次へボタンの実装
-    if($sel_page < $count){
+    if ($sel_page < $count) {
         $nextpage = $sel_page + 1;
-    }else{
+    } else {
         $nextpage = $count;
     }
     echo "
     <form action='pokemon.php' method='post'>
-        <input type='hidden' name='sel_page' value='{$nextpage}'>
-        <input type='hidden' name='select_page' value='{$one_page}'>
-        <input type='submit' class='other_btn' value='＞' class='paging'>
+    <input type='hidden' name='sel_page' value='{$nextpage}'>
+    <input type='hidden' name='select_page' value='{$one_page}'>
+    <input type='submit' class='other_btn' value='＞' class='paging'>
     </form>
     ";
     echo "</div>";
+}
+
+//セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
+function selectbox($one_page)
+{
     echo "<div style='display: inline'>";
-    //セレクトボックスの実装（現在の表示件数が先頭に来るようになっている）
     if ($one_page == 10) {
         echo <<<_FORM_
         <form action='pokemon.php' method='post'>
@@ -191,7 +206,7 @@ function card()
                 <option value="50">50ページ</option>
             </select>
         </form>
-    _FORM_;
+        _FORM_;
     } elseif ($one_page == 20) {
         echo <<<_FORM_
         <form action='pokemon.php' method='post'>
@@ -201,7 +216,7 @@ function card()
                 <option value="50">50ページ</option>
             </select>
         </form>
-    _FORM_;
+        _FORM_;
     } else {
         echo <<<_FORM_
         <form action='pokemon.php' method='post'>
@@ -211,9 +226,71 @@ function card()
                 <option value="20">20ページ</option>
             </select>
         </form>
-    _FORM_;
+        _FORM_;
     }
     echo "</div>";
+}
+
+
+function type_color($type)
+{
+    switch ($type) {
+        case "normal":
+            $color = "orange";
+            break;
+        case "grass":
+            $color = "green";
+            break;
+        case "poison":
+            $color = "purple";
+            break;
+        case "fire":
+            $color = "red";
+            break;
+        case "flying":
+            $color = "gold";
+            break;
+        case "water":
+            $color = "blue";
+            break;
+        case "bug":
+            $color = "darkgreen";
+            break;
+        case "electric":
+            $color = "#999900";
+            break;
+        case "ground":
+            $color = "#955629";
+            break;
+        case "fairy":
+            $color = "pink";
+            break;
+        case "fighting":
+            $color = "	#666699";
+            break;
+        case "ice":
+            $color = "lightblue";
+            break;
+        case "psychic":
+            $color = "#CD853F";
+            break;
+        case "rock":
+            $color = "gray";
+            break;
+        case "steel":
+            $color = "lightgray";
+            break;
+        case "ghost":
+            $color = "darkglay";
+            break;
+        case "dragon":
+            $color = "darkred";
+            break;
+        case "dark":
+            $color = "black";
+            break;
+    }
+    return $color;
 }
 ?>
 
@@ -221,6 +298,7 @@ function card()
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -228,19 +306,21 @@ function card()
     <link href="style/style.css" rel="stylesheet">
     <title>ポケモンずかん　勢井</title>
 </head>
+
 <body>
     <header>
         <div class="label"></div>
         <h1>ポケモンずかん</h1>
         <div class="base">
-        <div class="center">
-            <button class="center-button"></button>
-        </div>
+            <div class="center">
+                <button class="center-button"></button>
+            </div>
         </div>
         <div class="shadow"></div>
     </header>
     <main>
-        <?php card(); ?>
+        <?php main(); ?>
     </main>
 </body>
+
 </html>
